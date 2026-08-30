@@ -1,62 +1,19 @@
-{% comment %}
-  Candidate Banner
-  A self-contained promotional banner. Every text treatment is exposed in the
-  theme editor so merchants do not need to edit Liquid to update campaign copy.
-{% endcomment %}
-
-<section class="candidate-banner candidate-banner--{{ section.id }}" style="--candidate-banner-bg: {{ section.settings.background_color }}; --candidate-banner-text: {{ section.settings.text_color }};">
-  {% if section.settings.background_image != blank %}
-    {{ section.settings.background_image | image_url: width: 2400 | image_tag: class: 'candidate-banner__image', loading: 'eager', widths: '750, 1100, 1500, 2000, 2400' }}
-  {% endif %}
-  <div class="candidate-banner__shade"></div>
-  <div class="candidate-banner__content page-width">
-    {% if section.settings.kicker != blank %}<p class="candidate-banner__kicker">{{ section.settings.kicker | escape }}</p>{% endif %}
-    {% if section.settings.heading != blank %}<h1 class="candidate-banner__heading">{{ section.settings.heading | escape }}</h1>{% endif %}
-    {% if section.settings.text != blank %}<div class="candidate-banner__text">{{ section.settings.text }}</div>{% endif %}
-    <div class="candidate-banner__actions">
-      {% if section.settings.button_label != blank %}
-        <a class="candidate-banner__button" href="{{ section.settings.button_link | default: '#candidate-grid' }}">{{ section.settings.button_label | escape }}<span aria-hidden="true">→</span></a>
-      {% endif %}
-      {% if section.settings.secondary_button_label != blank %}
-        <a class="candidate-banner__button candidate-banner__button--secondary" href="{{ section.settings.secondary_button_link | default: '#candidate-grid' }}">{{ section.settings.secondary_button_label | escape }}</a>
-      {% endif %}
-    </div>
+{% comment %} Gift Guide banner — built from the supplied Figma assets. {% endcomment %}
+<section class="candidate-banner">
+  <div class="candidate-banner__announcement"><span class="candidate-banner__wordmark">TISSO VISON</span><span class="candidate-banner__message">{{ section.settings.announcement | escape }}</span>{% if section.settings.announcement_button_label != blank %}<a href="{{ section.settings.announcement_button_link | default: '#candidate-grid' }}">{{ section.settings.announcement_button_label | escape }} <span aria-hidden="true">⟶</span></a>{% endif %}</div>
+  <div class="candidate-banner__hero">
+    <img class="candidate-banner__art" src="{{ 'candidate-hero-art.svg' | asset_url }}" alt="" width="1440" height="390">
+    <img class="candidate-banner__detail" src="{{ 'candidate-hero-detail.svg' | asset_url }}" alt="" width="890" height="402">
+    <div class="candidate-banner__copy"><h1>{{ section.settings.heading | escape }}</h1><div>{{ section.settings.text }}</div>{% if section.settings.button_label != blank %}<a class="candidate-banner__button" href="{{ section.settings.button_link | default: '#candidate-grid' }}">{{ section.settings.button_label | escape }} <span aria-hidden="true">⟶</span></a>{% endif %}</div>
   </div>
+  <p class="candidate-banner__strapline">{{ section.settings.strapline | escape }}</p>
 </section>
-
 {% stylesheet %}
-  .candidate-banner { position: relative; isolation: isolate; min-height: clamp(390px, 55vw, 680px); display: grid; place-items: center; overflow: hidden; background: var(--candidate-banner-bg, #ddd7d1); color: var(--candidate-banner-text, #1b1a19); }
-  .candidate-banner__image, .candidate-banner__shade { position: absolute; inset: 0; width: 100%; height: 100%; }
-  .candidate-banner__image { object-fit: cover; z-index: -2; }
-  .candidate-banner__shade { z-index: -1; background: linear-gradient(90deg, rgb(0 0 0 / 35%), transparent 72%); }
-  .candidate-banner__content { width: 100%; padding-block: 72px; }
-  .candidate-banner__kicker { margin: 0 0 14px; font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
-  .candidate-banner__heading { max-width: 760px; margin: 0; font-size: clamp(42px, 7vw, 104px); line-height: .91; letter-spacing: -.055em; text-wrap: balance; }
-  .candidate-banner__text { max-width: 520px; margin-top: 24px; font-size: clamp(16px, 1.4vw, 20px); line-height: 1.45; }
-  .candidate-banner__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
-  .candidate-banner__button { display: inline-flex; align-items: center; gap: 32px; min-height: 54px; padding: 15px 23px; background: #df483d; color: #fff; border: 1px solid #df483d; font-size: 12px; font-weight: 700; letter-spacing: .09em; text-decoration: none; text-transform: uppercase; transition: transform .25s ease, background-color .25s ease, color .25s ease; }
-  .candidate-banner__button:hover { transform: translateY(-4px); background: #bd3129; }
-  .candidate-banner__button--secondary { background: transparent; border-color: currentColor; color: inherit; }
-  .candidate-banner__button--secondary:hover { background: currentColor; color: var(--candidate-banner-bg, #ddd7d1); }
-  @media (prefers-reduced-motion: reduce) { .candidate-banner__button { transition: none; } }
-  @media screen and (max-width: 749px) { .candidate-banner { min-height: 540px; align-items: end; } .candidate-banner__shade { background: linear-gradient(0deg, rgb(0 0 0 / 52%), transparent 85%); } .candidate-banner__content { padding-block: 42px; } .candidate-banner__heading { font-size: clamp(44px, 14vw, 70px); } .candidate-banner__actions { margin-top: 26px; } }
+  .candidate-banner { color: #000; background: #fff; font-family: Jost, Arial, sans-serif; }
+  .candidate-banner__announcement { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 24px; min-height: 39px; padding: 5px 50px; background: #f5f5f5; font-size: 16px; line-height: 1; }.candidate-banner__wordmark { font-weight: 700; letter-spacing: -.04em; }.candidate-banner__message { text-align: center; font-size: 12px; }.candidate-banner__announcement a { justify-self: end; min-width: 207px; padding: 14px 18px; background: #fff544; color: #000; font-size: 12px; text-align: center; text-decoration: none; text-transform: uppercase; }.candidate-banner__announcement a span, .candidate-banner__button span { display: inline-block; margin-left: 18px; transition: transform .2s ease; }.candidate-banner__announcement a:hover span, .candidate-banner__button:hover span { transform: translateX(5px); }
+  .candidate-banner__hero { position: relative; height: 780px; overflow: hidden; }.candidate-banner__art, .candidate-banner__detail { position: absolute; display: block; pointer-events: none; }.candidate-banner__art { top: 0; left: 0; width: 100%; height: 390px; }.candidate-banner__detail { right: 0; bottom: 0; width: 61.81%; height: auto; }.candidate-banner__copy { position: absolute; top: 54.5%; left: max(4.65%, 32px); width: min(483px, 42vw); }.candidate-banner__copy h1 { margin: 0; font-size: clamp(42px, 4.86vw, 70px); font-weight: 500; letter-spacing: -.04em; line-height: 1; }.candidate-banner__copy > div { margin-top: 42px; font-size: 20px; line-height: 1.4; }.candidate-banner__button { display: inline-block; margin-top: 43px; padding: 16px 29px; background: #000; color: #fff; font-size: 12px; text-decoration: none; text-transform: uppercase; }.candidate-banner__strapline { margin: 0; padding: 10px 20px; background: #f5f5f5; font-size: 10px; line-height: 1; text-align: center; text-transform: uppercase; }
+  @media screen and (max-width: 749px) { .candidate-banner__announcement { display: flex; justify-content: center; min-height: 56px; padding: 0 16px; box-shadow: 0 2px 4px rgb(0 0 0 / 15%); }.candidate-banner__announcement::before { content: '☰'; position: absolute; left: 16px; font-size: 19px; }.candidate-banner__wordmark { font-size: 23px; }.candidate-banner__message, .candidate-banner__announcement a { display: none; }.candidate-banner__hero { height: 421px; }.candidate-banner__art { top: 145px; left: 50%; width: 686px; height: 186px; transform: translateX(-50%); }.candidate-banner__detail { display: none; }.candidate-banner__copy { top: 41px; left: 50%; width: 340px; transform: translateX(-50%); text-align: center; }.candidate-banner__copy h1 { font-size: 30px; }.candidate-banner__copy > div { margin-top: 18px; font-size: 16px; line-height: 1.3; }.candidate-banner__copy > div p:not(:first-child) { display: none; }.candidate-banner__button { margin-top: 156px; padding: 14px 20px; font-size: 16px; }.candidate-banner__strapline { padding: 10px 8px; font-size: 11px; white-space: nowrap; } }
 {% endstylesheet %}
-
 {% schema %}
-{
-  "name": "Candidate banner",
-  "settings": [
-    { "type": "image_picker", "id": "background_image", "label": "Background image" },
-    { "type": "color", "id": "background_color", "label": "Background color", "default": "#d8d2cb" },
-    { "type": "color", "id": "text_color", "label": "Text color", "default": "#1b1a19" },
-    { "type": "text", "id": "kicker", "label": "Kicker", "default": "New collection" },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "Style that moves with you." },
-    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Discover considered essentials designed for every day.</p>" },
-    { "type": "text", "id": "button_label", "label": "Primary button label", "default": "Shop the collection" },
-    { "type": "url", "id": "button_link", "label": "Primary button link" },
-    { "type": "text", "id": "secondary_button_label", "label": "Secondary button label" },
-    { "type": "url", "id": "secondary_button_link", "label": "Secondary button link" }
-  ],
-  "presets": [{ "name": "Candidate banner" }]
-}
+{ "name": "Candidate banner", "settings": [{ "type": "text", "id": "announcement", "label": "Announcement text", "default": "Find the ideal gift for your loved ones." }, { "type": "text", "id": "announcement_button_label", "label": "Announcement button label", "default": "Choose gift" }, { "type": "url", "id": "announcement_button_link", "label": "Announcement button link" }, { "type": "text", "id": "heading", "label": "Heading", "default": "The Gift Guide" }, { "type": "richtext", "id": "text", "label": "Description", "default": "<p>Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season.</p>" }, { "type": "text", "id": "button_label", "label": "Button label", "default": "Shop now" }, { "type": "url", "id": "button_link", "label": "Button link" }, { "type": "text", "id": "strapline", "label": "Bottom strapline", "default": "Sustainable, ethically made clothes in sizes XXS to 6XL" }], "presets": [{ "name": "Candidate banner" }] }
 {% endschema %}
