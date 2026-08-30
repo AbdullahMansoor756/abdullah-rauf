@@ -1,0 +1,62 @@
+{% comment %}
+  Candidate Banner
+  A self-contained promotional banner. Every text treatment is exposed in the
+  theme editor so merchants do not need to edit Liquid to update campaign copy.
+{% endcomment %}
+
+<section class="candidate-banner candidate-banner--{{ section.id }}" style="--candidate-banner-bg: {{ section.settings.background_color }}; --candidate-banner-text: {{ section.settings.text_color }};">
+  {% if section.settings.background_image != blank %}
+    {{ section.settings.background_image | image_url: width: 2400 | image_tag: class: 'candidate-banner__image', loading: 'eager', widths: '750, 1100, 1500, 2000, 2400' }}
+  {% endif %}
+  <div class="candidate-banner__shade"></div>
+  <div class="candidate-banner__content page-width">
+    {% if section.settings.kicker != blank %}<p class="candidate-banner__kicker">{{ section.settings.kicker | escape }}</p>{% endif %}
+    {% if section.settings.heading != blank %}<h1 class="candidate-banner__heading">{{ section.settings.heading | escape }}</h1>{% endif %}
+    {% if section.settings.text != blank %}<div class="candidate-banner__text">{{ section.settings.text }}</div>{% endif %}
+    <div class="candidate-banner__actions">
+      {% if section.settings.button_label != blank %}
+        <a class="candidate-banner__button" href="{{ section.settings.button_link | default: '#candidate-grid' }}">{{ section.settings.button_label | escape }}<span aria-hidden="true">→</span></a>
+      {% endif %}
+      {% if section.settings.secondary_button_label != blank %}
+        <a class="candidate-banner__button candidate-banner__button--secondary" href="{{ section.settings.secondary_button_link | default: '#candidate-grid' }}">{{ section.settings.secondary_button_label | escape }}</a>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .candidate-banner { position: relative; isolation: isolate; min-height: clamp(390px, 55vw, 680px); display: grid; place-items: center; overflow: hidden; background: var(--candidate-banner-bg, #ddd7d1); color: var(--candidate-banner-text, #1b1a19); }
+  .candidate-banner__image, .candidate-banner__shade { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .candidate-banner__image { object-fit: cover; z-index: -2; }
+  .candidate-banner__shade { z-index: -1; background: linear-gradient(90deg, rgb(0 0 0 / 35%), transparent 72%); }
+  .candidate-banner__content { width: 100%; padding-block: 72px; }
+  .candidate-banner__kicker { margin: 0 0 14px; font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+  .candidate-banner__heading { max-width: 760px; margin: 0; font-size: clamp(42px, 7vw, 104px); line-height: .91; letter-spacing: -.055em; text-wrap: balance; }
+  .candidate-banner__text { max-width: 520px; margin-top: 24px; font-size: clamp(16px, 1.4vw, 20px); line-height: 1.45; }
+  .candidate-banner__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
+  .candidate-banner__button { display: inline-flex; align-items: center; gap: 32px; min-height: 54px; padding: 15px 23px; background: #df483d; color: #fff; border: 1px solid #df483d; font-size: 12px; font-weight: 700; letter-spacing: .09em; text-decoration: none; text-transform: uppercase; transition: transform .25s ease, background-color .25s ease, color .25s ease; }
+  .candidate-banner__button:hover { transform: translateY(-4px); background: #bd3129; }
+  .candidate-banner__button--secondary { background: transparent; border-color: currentColor; color: inherit; }
+  .candidate-banner__button--secondary:hover { background: currentColor; color: var(--candidate-banner-bg, #ddd7d1); }
+  @media (prefers-reduced-motion: reduce) { .candidate-banner__button { transition: none; } }
+  @media screen and (max-width: 749px) { .candidate-banner { min-height: 540px; align-items: end; } .candidate-banner__shade { background: linear-gradient(0deg, rgb(0 0 0 / 52%), transparent 85%); } .candidate-banner__content { padding-block: 42px; } .candidate-banner__heading { font-size: clamp(44px, 14vw, 70px); } .candidate-banner__actions { margin-top: 26px; } }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Candidate banner",
+  "settings": [
+    { "type": "image_picker", "id": "background_image", "label": "Background image" },
+    { "type": "color", "id": "background_color", "label": "Background color", "default": "#d8d2cb" },
+    { "type": "color", "id": "text_color", "label": "Text color", "default": "#1b1a19" },
+    { "type": "text", "id": "kicker", "label": "Kicker", "default": "New collection" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Style that moves with you." },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Discover considered essentials designed for every day.</p>" },
+    { "type": "text", "id": "button_label", "label": "Primary button label", "default": "Shop the collection" },
+    { "type": "url", "id": "button_link", "label": "Primary button link" },
+    { "type": "text", "id": "secondary_button_label", "label": "Secondary button label" },
+    { "type": "url", "id": "secondary_button_link", "label": "Secondary button link" }
+  ],
+  "presets": [{ "name": "Candidate banner" }]
+}
+{% endschema %}
